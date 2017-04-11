@@ -1,0 +1,12 @@
+
+[package]
+name = "rocket_cors"
+version = "0.0.1"
+authors = ["Artem Biryukov <impowski@protonmail.ch>"]
+
+[lib]
+name = "rocket_cors"
+path = "src/lib.rs"
+
+[dependencies]
+rocket = "*"
