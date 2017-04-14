@@ -2,7 +2,7 @@ extern crate rocket;
 
 use std::collections::HashSet;
 use rocket::response::{self, Response, Responder};
-use rocket::http::Method;
+use rocket::http::{Status, Method};
 
 /// The CORS type, which implements `Responder`. This type allows
 /// you to request resources from another domain.
@@ -36,6 +36,7 @@ pub struct CORS<R> {
     max_age: Option<usize>,
     allow_methods: HashSet<Method>,
     allow_headers: HashSet<&'static str>
+    status: Option<Status>
 }
 
 pub type PreflightCORS = CORS<()>;
@@ -63,7 +64,8 @@ impl<'r, R: Responder<'r>> CORS<R> {
             expose_headers: HashSet::new(),
             max_age: None,
             allow_methods: HashSet::new(),
-            allow_headers: HashSet::new()
+            allow_headers: HashSet::new(),
+            status: None
         }
     }
 
@@ -101,6 +103,12 @@ impl<'r, R: Responder<'r>> CORS<R> {
         self.allow_headers = headers.into_iter().cloned().collect();
         self
     }
+
+    /// Sets a status on the Response
+    pub fn status(mut self, status: Status) -> CORS<R> {
+        self.status = Some(status);
+        self
+    }
 }
 
 impl <'r, R: Responder<'r>> Responder<'r> for CORS<R> {
@@ -135,6 +143,10 @@ impl <'r, R: Responder<'r>> Responder<'r> for CORS<R> {
         if self.max_age.is_some() {
             let max_age = self.max_age.unwrap();
             response.set_raw_header("Access-Control-Max-Age", max_age.to_string());
+        }
+
+        if self.status.is_some() {
+            response.set_status(self.status.unwrap());
         }
 
         Ok(response)
