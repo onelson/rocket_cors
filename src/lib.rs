@@ -119,8 +119,6 @@ impl <'r, R: Responder<'r>> Responder<'r> for CORS<R> {
 
         if self.allow_credentials {
             response.set_raw_header("Access-Control-Allow-Credentials", "true");
-        } else {
-            response.set_raw_header("Access-Control-Allow-Credentials", "false");
         }
 
         if !self.expose_headers.is_empty() {
