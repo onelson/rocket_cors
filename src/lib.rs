@@ -35,7 +35,7 @@ pub struct CORS<R> {
     expose_headers: HashSet<&'static str>,
     max_age: Option<usize>,
     allow_methods: HashSet<Method>,
-    allow_headers: HashSet<&'static str>
+    allow_headers: HashSet<&'static str>,
     status: Option<Status>
 }
 
