@@ -13,7 +13,7 @@ You can use the `CORS` type for you routes as a preflight like that:
     #[route(OPTIONS, "/user")]
     fn cors_preflight() -> PreflightCORS {
         CORS::preflight("http://somehost.com")
-            .methods(vec![Method::Options, Methods::Get])
+            .methods(vec![Method::Options, Method::Get])
             .headers(vec!["Content-Type"])
     }
 
