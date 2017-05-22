@@ -15,7 +15,7 @@ use rocket::http::{Status, Method};
 /// #[route(OPTIONS, "/user")]
 /// fn cors_preflight() -> PreflightCORS {
 ///     CORS::preflight("http://somehost.com")
-///         .methods(vec![Method::Options, Methods::Get])
+///         .methods(vec![Method::Options, Method::Get])
 ///         .headers(vec!["Content-Type"])
 /// }
 /// ```
@@ -35,7 +35,7 @@ pub struct CORS<R> {
     expose_headers: HashSet<&'static str>,
     max_age: Option<usize>,
     allow_methods: HashSet<Method>,
-    allow_headers: HashSet<&'static str>
+    allow_headers: HashSet<&'static str>,
     status: Option<Status>
 }
 
